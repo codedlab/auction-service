@@ -7,8 +7,8 @@ import getAuctionsSchema from "../lib/schemas/getAuctionsSchema";
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function getAuctions(event, context) {
-  let auctions;
   const { status } = event.queryStringParameters;
+  let auctions;
   const params = {
     TableName: process.env.AUCTIONS_TABLE_NAME,
     IndexName: "statusAndEndDate",
@@ -35,5 +35,7 @@ async function getAuctions(event, context) {
 }
 
 export const handler = commonMiddleware(getAuctions).use(
-  validator({ inputSchema: getAuctionsSchema, useDefaults: true })
+  validator({
+    inputSchema: getAuctionsSchema,
+  })
 );
